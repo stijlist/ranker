@@ -10,9 +10,10 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
   </body>
+  <script type="text/javascript" src="out/goog/base.js"></script>
+  <script type="text/javascript" src="out/main.js"></script>
   <script>
-    require('electron').ipcRenderer.on('stdin', function (event, message) {
-      console.log(message)
-    })
+    console.time('cljs load')
+    goog.require("ranker.core")
   </script>
 </html>
