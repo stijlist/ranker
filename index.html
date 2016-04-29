@@ -10,4 +10,9 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
   </body>
+  <script>
+    require('electron').ipcRenderer.on('stdin', function (event, message) {
+      console.log(message)
+    })
+  </script>
 </html>

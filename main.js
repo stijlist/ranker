@@ -8,17 +8,24 @@ const BrowserWindow = electron.BrowserWindow;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow
+var tempbuffer = []
 
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
+  mainWindow.title = "New title!"
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  mainWindow.webContents.on('did-finish-load', function () {
+    mainWindow.send('stdin', "HELLO")
+    mainWindow.send('stdin', tempbuffer.join(''))
+  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -47,5 +54,17 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
+  }
+});
+
+process.stdin.setEncoding('utf8');
+process.stdin.on('readable', function () {
+  var chunk = process.stdin.read();
+  if (chunk != null) {
+    if (mainWindow != null) {
+      mainWindow.webContents.send('stdin', chunk)
+    } else {
+      tempbuffer.push(chunk)
+    }
   }
 });
