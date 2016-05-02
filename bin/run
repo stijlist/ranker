@@ -1,0 +1,2 @@
+#!/bin/sh
+java -cp "$(cat .classpath)" clojure.main build.clj && cat testfile | npm run start

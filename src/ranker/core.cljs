@@ -1,5 +1,6 @@
 (ns ranker.core
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [sablono.core :as sablono]))
 
 (enable-console-print!)
 (.timeEnd js/console "cljs load")
